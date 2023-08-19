@@ -11,15 +11,18 @@ services:
       - "8000:8000"
     environment:
       FLASK_ENV: development  # Укажите необходимое окружение (development, production и т.д.)
-      SERVER_NAME: "test.lvh.me"
+      SERVER_NAME: "absolutezero.lol"
 
   nginx:
     build:
       context: ./nginx
     image: nginx
+    # Если локально разрабатывать под доменным именем
+    # ports:
+    #   - "80:80"
     environment:
       DOLLAR: "$$"
-      SERVER_NAME: "test.lvh.me"
+      SERVER_NAME: "absolutezero.lol"
       COMMENT_EXPIRES: "#" # Пустая строка - оставляет директиву expires, решетка - комментит. Например в .feat.yml
     depends_on:
       - server
