@@ -1,0 +1,25 @@
+version: '3'
+
+
+
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      FLASK_ENV: development  # Укажите необходимое окружение (development, production и т.д.)
+      SERVER_NAME: "test.lvh.me"
+
+  nginx:
+    build:
+      context: ./nginx
+    image: nginx
+    environment:
+      DOLLAR: "$$"
+      SERVER_NAME: "test.lvh.me"
+      COMMENT_EXPIRES: "#" # Пустая строка - оставляет директиву expires, решетка - комментит. Например в .feat.yml
+    depends_on:
+      - server

@@ -1,0 +1,18 @@
+server {
+
+    listen 80;
+    server_name ${SERVER_NAME};
+
+    if (${DOLLAR}host != '${SERVER_NAME}') {
+        rewrite ^ https://${SERVER_NAME}${DOLLAR}request_uri? permanent;
+    }
+
+    location / {
+        proxy_pass http://server:8000;
+        proxy_set_header    Host ${DOLLAR}host;
+        proxy_set_header    X-Real-IP ${DOLLAR}remote_addr;
+        proxy_set_header    X-Forwarded-Proto ${DOLLAR}scheme;
+        client_max_body_size    8m;
+    }
+
+}

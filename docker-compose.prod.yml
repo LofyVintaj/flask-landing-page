@@ -1,0 +1,42 @@
+version: '3'
+
+
+services:
+
+  traefik:
+    image: "traefik:v2.2"
+    restart: always
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "letsencrypt:/letsencrypt/"
+    ports:
+      - "80:80"
+      - "443:443"
+    command: >
+      --log.level=DEBUG
+      --providers.docker=true
+      --providers.docker.exposedbydefault=false
+      --entrypoints.web.address=:80
+      --entrypoints.web.http.redirections.entrypoint.to=websecure
+      --entrypoints.web.http.redirections.entrypoint.scheme=https
+      --entrypoints.web.http.redirections.entrypoint.permanent=true
+      --entrypoints.websecure.address=:443
+      --certificatesResolvers.leresolver.acme.tlsChallenge=true
+      --certificatesresolvers.leresolver.acme.email=ssl@idpowers.com
+      --certificatesresolvers.leresolver.acme.storage=/letsencrypt/acme.json
+
+  server:
+    restart: always
+
+  nginx:
+    restart: always
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.flask_landing_page.rule: "Host(`${SERVER_NAME}`)"
+      traefik.http.routers.flask_landing_page.tls: "true"
+      traefik.http.routers.flask_landing_page.entrypoints: "websecure"
+      traefik.http.routers.flask_landing_page.tls.certresolver: "leresolver"
+      traefik.http.services.flask_landing_page.loadbalancer.server.port: "80"
+
+volumes:
+  letsencrypt:
