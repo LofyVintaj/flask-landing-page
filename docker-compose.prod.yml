@@ -27,7 +27,9 @@ services:
 
   server:
     restart: always
-
+   environment:
+      FLASK_ENV: production  # Укажите необходимое окружение (development, production и т.д.)
+  
   nginx:
     restart: always
     labels:
