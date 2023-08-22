@@ -34,11 +34,11 @@ services:
     restart: always
     labels:
       traefik.enable: "true"
-      traefik.http.routers.flask_landing_page.rule: "Host(`${SERVER_NAME}`)"
-      traefik.http.routers.flask_landing_page.tls: "true"
-      traefik.http.routers.flask_landing_page.entrypoints: "websecure"
-      traefik.http.routers.flask_landing_page.tls.certresolver: "leresolver"
-      traefik.http.services.flask_landing_page.loadbalancer.server.port: "80"
+      traefik.http.routers.fl.rule: "Host(`absolutezero.lol`)"
+      traefik.http.routers.fl.tls: "true"
+      traefik.http.routers.fl.entrypoints: "websecure"
+      traefik.http.routers.fl.tls.certresolver: "leresolver"
+      traefik.http.services.fl.loadbalancer.server.port: "80"
 
 volumes:
   letsencrypt:
