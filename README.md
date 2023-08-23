@@ -1,6 +1,6 @@
 # flask-landing-page
 
-# Команда для запуска на продакшен сервере
+# Команда для запуска на прод сервере
 ```
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build
 ```
